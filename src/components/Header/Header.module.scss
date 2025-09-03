@@ -1,0 +1,18 @@
+.header {
+  padding: clamp(12px, 2vw, 24px);
+  display: flex;
+  align-items: center;
+  height: 80px;
+
+  &__imgLogo {
+    width: clamp(48px, 5vw, 60px);
+    height: clamp(48px, 5vw, 60px);
+  }
+
+  &__logo {
+    font-size: clamp(24px, 5vw, 32px);
+    line-height: 28px;
+    margin-left: 12px;
+    color: #4f46a3;
+  }
+}
