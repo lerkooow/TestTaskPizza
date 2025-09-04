@@ -3,8 +3,12 @@
   align-items: center;
   justify-content: space-between;
   padding: clamp(24px, 2vw, 32px);
-  height: 125px;
+  height: 100px;
   background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #c0c0c047;
 
   &__logoWrapper {
     display: flex;

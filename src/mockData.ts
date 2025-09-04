@@ -1,4 +1,4 @@
-import type { TIngredients, TPizzaData } from "./types";
+import type { TIngredients, TPizzaData, TSteps } from "./types";
 
 export const ingredients: TIngredients[] = [
   { id: 1, name: "Сыр моцарелла", price: 50 },
@@ -107,4 +107,10 @@ export const pizzaData: TPizzaData[] = [
     image: "seafood.svg",
     ingredients: [30, 31, 32, 33],
   },
+];
+
+export const steps: TSteps[] = [
+  { title: "Шаг 1", description: "Проверьте ваш заказ", label: "order" },
+  { title: "Шаг 2", description: "Оформление заказа", label: "checkout" },
+  { title: "Шаг 3", description: "Подтверждение заказа", label: "confirmation" },
 ];

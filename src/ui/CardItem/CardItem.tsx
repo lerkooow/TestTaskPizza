@@ -53,9 +53,12 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
       updated[existingIndex].count += 1;
       setCart(updated);
     } else {
+      const uniqueId = `${pizza.id}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+
       setCart([
         ...cart,
         {
+          id_cart: uniqueId,
           id: pizza.id,
           name: pizza.name,
           image: pizza.image,
@@ -65,7 +68,7 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
         },
       ]);
     }
-
+    setSelectedIngredients([]);
     setIsOpen(false);
   };
 
