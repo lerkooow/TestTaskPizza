@@ -1,14 +1,13 @@
-import { SimpleGrid } from "@chakra-ui/react";
+import { Box, SimpleGrid } from "@chakra-ui/react";
+
+import { CardItem } from "../Card";
 
 import { pizzaData } from "@/mockData";
-import { CardItem } from "@/components/CardItem/CardItem";
-
-import s from "./PizzaList.module.scss";
 
 export const PizzaList = () => {
   return (
-    <div className={s.pizzaList}>
-      <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 4 }} gap={{ base: "20px", md: "30px", lg: "40px" }} p={{ base: "20px" }} mx="auto">
+    <Box minH={"calc(100vh - 100px)"}>
+      <SimpleGrid columns={{ base: 1, sm: 2, md: 3, lg: 3, xl: 4 }} gap={{ base: "20px", md: "30px", lg: "40px" }} p={{ base: "20px" }} mx="auto">
         {pizzaData.map((pizza) => (
           <CardItem
             key={pizza.id}
@@ -22,6 +21,6 @@ export const PizzaList = () => {
           />
         ))}
       </SimpleGrid>
-    </div>
+    </Box>
   );
 };
