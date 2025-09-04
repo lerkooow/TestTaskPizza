@@ -1,18 +1,33 @@
 .header {
-  padding: clamp(12px, 2vw, 24px);
   display: flex;
   align-items: center;
-  height: 80px;
+  justify-content: space-between;
+  padding: clamp(24px, 2vw, 32px);
+  height: 125px;
+  background-color: #ffffff;
+
+  &__logoWrapper {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
 
   &__imgLogo {
     width: clamp(48px, 5vw, 60px);
     height: clamp(48px, 5vw, 60px);
   }
 
+  &__img {
+    width: clamp(24px, 5vw, 32px);
+    height: clamp(24px, 5vw, 32px);
+    cursor: pointer;
+  }
+
   &__logo {
     font-size: clamp(24px, 5vw, 32px);
     line-height: 28px;
-    margin-left: 12px;
-    color: #4f46a3;
+
+    font-weight: 700;
+    font-family: "Story Script", sans-serif;
   }
 }
