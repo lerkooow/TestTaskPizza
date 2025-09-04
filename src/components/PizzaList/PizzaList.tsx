@@ -1,7 +1,7 @@
 import { SimpleGrid } from "@chakra-ui/react";
 
 import { pizzaData } from "@/mockData";
-import { CardItem } from "@/ui/Card/Card";
+import { CardItem } from "@/ui/CardItem/CardItem";
 
 import s from "./PizzaList.module.scss";
 
