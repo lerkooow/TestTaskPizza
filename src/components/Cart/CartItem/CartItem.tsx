@@ -4,14 +4,15 @@ import { CartItemInfo } from "./CartItemInfo";
 import { CartItemControls } from "./CartItemControls";
 
 import type { TCart } from "@/types";
-interface CartItemProps {
+
+type TCartItemProps = {
   item: TCart;
   index: number;
   onRemove: (id_cart: string) => void;
   onUpdateCount: (id_cart: string, count: number) => void;
-}
+};
 
-export const CartItem = ({ item, index, onRemove, onUpdateCount }: CartItemProps) => {
+export const CartItem = ({ item, index, onRemove, onUpdateCount }: TCartItemProps) => {
   return (
     <Box key={index} mb="6" border="1px solid #7b7b7b5c" p="4" pb="6" borderRadius="xl">
       <CartItemInfo item={item} index={index} onRemove={onRemove} />

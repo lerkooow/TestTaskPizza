@@ -1,15 +1,13 @@
+import { Box } from "@chakra-ui/react";
+
 import { Header } from "./components/Header";
 import { PizzaList } from "./components/PizzaList";
 
-import s from "./App.module.scss";
-
-function App() {
+export const App = () => {
   return (
-    <div className={s.app}>
+    <Box minH="100vh" display="flex" flexDirection="column" maxW="1440px" w="100%" m="0 auto">
       <Header />
       <PizzaList />
-    </div>
+    </Box>
   );
-}
-
-export default App;
+};

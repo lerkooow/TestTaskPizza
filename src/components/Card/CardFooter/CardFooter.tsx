@@ -1,5 +1,6 @@
-import type { TPizzaData } from "@/types";
 import { Button, Card, Text, VStack } from "@chakra-ui/react";
+
+import type { TPizzaData } from "@/types";
 
 type TCardFooterProps = {
   pizza: TPizzaData;

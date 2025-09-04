@@ -4,14 +4,14 @@ import { CartItem } from "../CartItem";
 
 import type { TCart } from "@/types";
 
-interface OrderStepProps {
+type TOrderStepProps = {
   cart: TCart[];
   stepDescription: string;
   onRemoveItem: (id_cart: string) => void;
   onUpdateCount: (id_cart: string, count: number) => void;
-}
+};
 
-export const OrderStep = ({ cart, stepDescription, onRemoveItem, onUpdateCount }: OrderStepProps) => {
+export const OrderStep = ({ cart, stepDescription, onRemoveItem, onUpdateCount }: TOrderStepProps) => {
   if (cart.length === 0) {
     return (
       <Text fontSize="lg" fontWeight="bold">

@@ -4,16 +4,16 @@ import { OrderStep } from "../OrderStep";
 
 import type { TCart, TSteps } from "@/types";
 
-interface CartModalProps {
+type TCartModalProps = {
   isOpen: boolean;
   onOpenChange: (details: { open: boolean }) => void;
   cart: TCart[];
   steps: TSteps[];
   onRemoveItem: (id_cart: string) => void;
   onUpdateCount: (id_cart: string, count: number) => void;
-}
+};
 
-export const CartModal = ({ isOpen, onOpenChange, cart, steps, onRemoveItem, onUpdateCount }: CartModalProps) => {
+export const CartModal = ({ isOpen, onOpenChange, cart, steps, onRemoveItem, onUpdateCount }: TCartModalProps) => {
   return (
     <Dialog.Root size="lg" closeOnInteractOutside={false} open={isOpen} onOpenChange={onOpenChange}>
       <Portal>

@@ -2,14 +2,15 @@ import { Box, HStack, Image, Text } from "@chakra-ui/react";
 
 import type { TCart } from "@/types";
 
-interface CartItemInfoProps {
+type TCartItemInfoProps = {
   item: TCart;
   index: number;
   onRemove: (id_cart: string) => void;
-}
+};
 
-export const CartItemInfo = ({ item, index, onRemove }: CartItemInfoProps) => {
+export const CartItemInfo = ({ item, index, onRemove }: TCartItemInfoProps) => {
   const ingredientsList = item.ingredients.map((ingredient) => ingredient.name).join(", ");
+
   return (
     <Box display="flex" alignItems="flex-start" justifyContent="space-between" gap="4" borderBottom="1px solid #e2e8f0">
       <Box display="flex" alignItems="center" gap="4" w="100%">

@@ -1,11 +1,11 @@
 import { Button, HStack, Text } from "@chakra-ui/react";
 
-interface CartItemControlsProps {
+type TCartItemControlsProps = {
   count: number;
   onUpdateCount: (count: number) => void;
-}
+};
 
-export const CartItemControls = ({ count, onUpdateCount }: CartItemControlsProps) => {
+export const CartItemControls = ({ count, onUpdateCount }: TCartItemControlsProps) => {
   const handleUpdateCount = (newCount: number) => {
     if (newCount > 0) {
       onUpdateCount(newCount);
