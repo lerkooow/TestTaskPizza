@@ -1,6 +1,7 @@
 import { Box, Circle, Float } from "@chakra-ui/react";
 
 import s from "./Header.module.scss";
+import { count } from "@/mockData";
 
 export const Header = () => {
   return (
@@ -11,11 +12,13 @@ export const Header = () => {
       </div>
       <Box position="relative" display="inline-block">
         <img src="shopping-cart.svg" alt="Shopping cart" className={s.header__img} />
-        <Float offsetX="7" offsetY="3">
-          <Circle size="18px" bg="red" color="white" fontSize="14px" position="absolute">
-            3
-          </Circle>
-        </Float>
+        {count !== 0 && (
+          <Float offsetX="7" offsetY="3">
+            <Circle size="18px" bg="red" color="white" fontSize="14px" position="absolute">
+              {count}
+            </Circle>
+          </Float>
+        )}
       </Box>
     </div>
   );

@@ -106,3 +106,5 @@ export const pizzaData = [
     ingredients: [30, 31, 32, 33],
   },
 ];
+
+export const count: number = 1;
