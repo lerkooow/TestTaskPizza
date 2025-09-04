@@ -1,4 +1,6 @@
-export const ingredients = [
+import type { TIngredients, TPizzaData } from "./types";
+
+export const ingredients: TIngredients[] = [
   { id: 1, name: "Сыр моцарелла", price: 50 },
   { id: 2, name: "Острый соус", price: 30 },
   { id: 3, name: "Оливки", price: 40 },
@@ -34,7 +36,7 @@ export const ingredients = [
   { id: 33, name: "Лимон", price: 10 },
 ];
 
-export const pizzaData = [
+export const pizzaData: TPizzaData[] = [
   {
     id: 1,
     name: "Пепперони",
@@ -106,5 +108,3 @@ export const pizzaData = [
     ingredients: [30, 31, 32, 33],
   },
 ];
-
-export const count: number = 1;

@@ -16,7 +16,7 @@ export const PizzaList = () => {
               id: pizza.id,
               price: pizza.price,
               name: pizza.name,
-              imageUrl: pizza.image ?? "",
+              image: pizza.image,
               ingredients: pizza.ingredients,
             }}
           />

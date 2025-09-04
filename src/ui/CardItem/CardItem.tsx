@@ -1,18 +1,20 @@
-import { Button, Card, Image, Text, HStack, VStack, Box, Dialog, Portal, CloseButton, Checkbox } from "@chakra-ui/react";
-import { pizzaData, ingredients } from "@/mockData";
 import { useState } from "react";
 
+import { Button, Card, Image, Text, HStack, VStack, Box, Dialog, Portal, CloseButton, Checkbox } from "@chakra-ui/react";
+
+import { useCartStore } from "@/store/cartStore";
+import { pizzaData, ingredients } from "@/mockData";
+
+import type { TPizzaData } from "@/types";
+
 type TCardItemProps = {
-  pizza: {
-    id: number;
-    price: number;
-    name: string;
-    imageUrl: string;
-    ingredients: number[];
-  };
+  pizza: TPizzaData;
 };
 
 export const CardItem = ({ pizza }: TCardItemProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { cart, setCart } = useCartStore();
+
   const getExtraIngredients = (pizzaId: number) => {
     const pizzaItem = pizzaData.find((p) => p.id === pizzaId);
     if (!pizzaItem) return [];
@@ -34,11 +36,44 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
     });
   };
 
+  const ingredientsEqual = (a: { id: number }[], b: { id: number }[]) => {
+    if (a.length !== b.length) return false;
+
+    const aIds = a.map((i) => i.id).sort();
+    const bIds = b.map((i) => i.id).sort();
+
+    return aIds.every((id, index) => id === bIds[index]);
+  };
+
+  const handleAddCart = () => {
+    const existingIndex = cart.findIndex((item) => item.id === pizza.id && ingredientsEqual(item.ingredients, selectedIngredients));
+
+    if (existingIndex !== -1) {
+      const updated = [...cart];
+      updated[existingIndex].count += 1;
+      setCart(updated);
+    } else {
+      setCart([
+        ...cart,
+        {
+          id: pizza.id,
+          name: pizza.name,
+          image: pizza.image,
+          ingredients: selectedIngredients,
+          price: totalPrice,
+          count: 1,
+        },
+      ]);
+    }
+
+    setIsOpen(false);
+  };
+
   const totalIngredientsPrice = selectedIngredients.reduce((sum, item) => sum + item.price, 0);
   const totalPrice = pizza.price + totalIngredientsPrice;
 
   return (
-    <Dialog.Root size="lg" closeOnInteractOutside={false}>
+    <Dialog.Root size="lg" closeOnInteractOutside={false} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
       <Dialog.Trigger asChild>
         <Card.Root
           maxW="500px"
@@ -51,7 +86,7 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
           _hover={{ transform: "translateY(-4px)", shadow: "xl", transition: "all 0.3s ease-in-out" }}
         >
           <Box position="relative" overflow="hidden">
-            <Image src={pizza.imageUrl} alt={pizza.name} h="250px" w="100%" objectFit="cover" transition="transform 0.3s ease-in-out" />
+            <Image src={pizza.image} alt={pizza.name} h="250px" w="100%" objectFit="cover" transition="transform 0.3s ease-in-out" />
           </Box>
 
           <Card.Body p="20px" gap="3">
@@ -95,7 +130,7 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
             gap="6"
           >
             <Box flexShrink={0}>
-              <Image src={pizza.imageUrl} alt={pizza.name} borderRadius="md" h={{ base: "250px", md: "500px" }} w={{ base: "100%", md: "400px" }} objectFit="cover" />
+              <Image src={pizza.image} alt={pizza.name} borderRadius="md" h={{ base: "250px", md: "500px" }} w={{ base: "100%", md: "400px" }} objectFit="cover" />
             </Box>
 
             <Box display="flex" flexDirection="column" flex="1">
@@ -123,7 +158,7 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
               </Dialog.Body>
 
               <Dialog.Footer mt="auto" gap="3">
-                <Button colorScheme="orange" p="6" fontSize="xl" borderRadius="xl">
+                <Button colorScheme="orange" p="6" fontSize="xl" borderRadius="xl" onClick={handleAddCart}>
                   В корзину за {totalPrice} ₽
                 </Button>
               </Dialog.Footer>

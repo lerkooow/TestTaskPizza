@@ -1,9 +1,13 @@
 import { Box, Circle, Float } from "@chakra-ui/react";
 
+import { useCartStore } from "@/store/cartStore";
+
 import s from "./Header.module.scss";
-import { count } from "@/mockData";
 
 export const Header = () => {
+  const { cart } = useCartStore();
+  const totalCount = cart.reduce((count, item) => count + item.count, 0);
+
   return (
     <div className={s.header}>
       <div className={s.header__logoWrapper}>
@@ -12,10 +16,10 @@ export const Header = () => {
       </div>
       <Box position="relative" display="inline-block">
         <img src="shopping-cart.svg" alt="Shopping cart" className={s.header__img} />
-        {count !== 0 && (
+        {totalCount !== 0 && (
           <Float offsetX="7" offsetY="3">
             <Circle size="18px" bg="red" color="white" fontSize="14px" position="absolute">
-              {count}
+              {totalCount}
             </Circle>
           </Float>
         )}
