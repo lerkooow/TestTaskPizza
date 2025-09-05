@@ -8,7 +8,10 @@ type TConfirmationStepProps = {
 };
 
 export const ConfirmationStep = ({ totalAmount, onClose }: TConfirmationStepProps) => {
-  const { name, phone, address, comment } = useCheckoutStore();
+  const { values } = useCheckoutStore();
+  console.log("🚀 ~ ConfirmationStep ~ values:", values);
+  const { name, phone, address, comment } = values;
+
   return (
     <Box>
       <Text fontSize="xl">Ваше имя: {name}</Text>

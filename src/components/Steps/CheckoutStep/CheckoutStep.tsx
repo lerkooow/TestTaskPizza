@@ -1,6 +1,8 @@
 import { Button, ButtonGroup, Fieldset, Stack, Steps, Text } from "@chakra-ui/react";
 import { useMask } from "@react-input/mask";
 import { FormField } from "@/ui/FormField";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useCheckoutStore } from "@/store/checkoutStore";
 
@@ -15,68 +17,72 @@ const checkoutSchema = z.object({
   comment: z.string().optional(),
 });
 
+type CheckoutFormValues = z.infer<typeof checkoutSchema>;
+
 export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
-  const { name, phone, address, comment, errors, setName, setPhone, setAddress, setComment, setErrors, clear } = useCheckoutStore();
+  const inputRef = useMask({ mask: "+7 (___) ___-__-__", replacement: { _: /\d/ } });
+  const setValues = useCheckoutStore((state) => state.setValues);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors, isValid },
+    reset,
+  } = useForm<CheckoutFormValues>({ resolver: zodResolver(checkoutSchema), mode: "onChange", defaultValues: { name: "", phone: "", address: "", comment: "" } });
 
-  const inputRef = useMask({
-    mask: "+7 (___) ___-__-__",
-    replacement: { _: /\d/ },
-  });
-
-  const handleSubmit = () => {
-    const result = checkoutSchema.safeParse({ name, phone, address, comment });
-    if (!result.success) {
-      const newErrors: Record<string, string> = {};
-      result.error.issues.forEach((issue) => {
-        if (issue.path[0]) {
-          newErrors[issue.path[0] as string] = issue.message;
-        }
-      });
-      setErrors(newErrors);
-      return false;
-    }
-
-    setErrors({});
-    clear();
-    return true;
+  const onSubmit = (data: CheckoutFormValues) => {
+    console.log("Форма валидна, данные:", data);
+    setValues(data);
+    reset();
   };
 
-  const validateTrue = !!errors && name && phone && address;
-
   return (
-    <Fieldset.Root as="form" size="lg" maxW="md" id="checkout-form">
+    <Fieldset.Root as="form" size="lg" maxW="md">
       <Stack>
         <Fieldset.Legend>Оформление заказа</Fieldset.Legend>
 
-        <FormField label="Имя" value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваше имя" error={errors.name} />
+        <Controller name="name" control={control} render={({ field }) => <FormField label="Имя" placeholder="Ваше имя" {...field} error={errors.name?.message} />} />
 
-        <FormField label="Телефон" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+7 (XXX) XXX-XX-XX" maxLength={18} ref={inputRef} error={errors.phone} />
+        <Controller
+          name="phone"
+          control={control}
+          render={({ field }) => (
+            <FormField
+              label="Телефон"
+              placeholder="+7 (XXX) XXX-XX-XX"
+              maxLength={18}
+              {...field}
+              ref={(el) => {
+                field.ref(el);
+                if (el) inputRef.current = el;
+              }}
+              error={errors.phone?.message}
+            />
+          )}
+        />
 
-        <FormField label="Адрес доставки" value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Улица, дом, квартира" error={errors.address} />
+        <Controller name="address" control={control} render={({ field }) => <FormField label="Адрес доставки" placeholder="Улица, дом, квартира" {...field} error={errors.address?.message} />} />
 
-        <FormField label="Комментарий (опционально)" value={comment} onChange={(e) => setComment(e.target.value)} placeholder="Комментарий к заказу" error={errors.comment} />
+        <Controller
+          name="comment"
+          control={control}
+          render={({ field }) => <FormField label="Комментарий (опционально)" placeholder="Комментарий к заказу" {...field} value={field.value ?? ""} error={errors.comment?.message} />}
+        />
       </Stack>
 
       <Text fontSize="2xl" fontWeight="bold" mt="4">
         Сумма заказа: {totalAmount} ₽
       </Text>
 
-      <ButtonGroup size="sm" variant="outline">
+      <ButtonGroup size="sm" variant="outline" mt="4">
         <Steps.PrevTrigger asChild>
           <Button p="4">Назад</Button>
         </Steps.PrevTrigger>
 
-        {validateTrue ? (
-          <Steps.NextTrigger asChild>
-            <Button p="4" color="green">
-              Дальше
-            </Button>
-          </Steps.NextTrigger>
-        ) : (
-          <Button onClick={handleSubmit} p="4" color="blue">
+        <Steps.NextTrigger asChild>
+          <Button type="submit" p="4" color="green" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
             Дальше
           </Button>
-        )}
+        </Steps.NextTrigger>
       </ButtonGroup>
     </Fieldset.Root>
   );
