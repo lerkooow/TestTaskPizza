@@ -1,8 +1,8 @@
-import { useState } from "react";
 import { Button, ButtonGroup, Fieldset, Stack, Steps, Text } from "@chakra-ui/react";
 import { useMask } from "@react-input/mask";
 import { FormField } from "@/ui/FormField";
 import { z } from "zod";
+import { useCheckoutStore } from "@/store/checkoutStore";
 
 type TCheckoutStep = {
   totalAmount: number;
@@ -16,13 +16,7 @@ const checkoutSchema = z.object({
 });
 
 export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
-  const [name, setName] = useState("");
-  console.log("🚀 ~ CheckoutStep ~ name:", name);
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
-  const [comment, setComment] = useState("");
-
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const { name, phone, address, comment, errors, setName, setPhone, setAddress, setComment, setErrors, clear } = useCheckoutStore();
 
   const inputRef = useMask({
     mask: "+7 (___) ___-__-__",
@@ -31,7 +25,6 @@ export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
 
   const handleSubmit = () => {
     const result = checkoutSchema.safeParse({ name, phone, address, comment });
-
     if (!result.success) {
       const newErrors: Record<string, string> = {};
       result.error.issues.forEach((issue) => {
@@ -44,9 +37,11 @@ export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
     }
 
     setErrors({});
-    alert("Заказ оформлен!");
+    clear();
     return true;
   };
+
+  const validateTrue = !!errors && name && phone && address;
 
   return (
     <Fieldset.Root as="form" size="lg" maxW="md" id="checkout-form">
@@ -70,19 +65,18 @@ export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
         <Steps.PrevTrigger asChild>
           <Button p="4">Назад</Button>
         </Steps.PrevTrigger>
-        <Steps.NextTrigger asChild>
-          <Button
-            onClick={() => {
-              if (!handleSubmit()) {
-                return;
-              }
-            }}
-            p="4"
-            color="green"
-          >
+
+        {validateTrue ? (
+          <Steps.NextTrigger asChild>
+            <Button p="4" color="green">
+              Дальше
+            </Button>
+          </Steps.NextTrigger>
+        ) : (
+          <Button onClick={handleSubmit} p="4" color="blue">
             Дальше
           </Button>
-        </Steps.NextTrigger>
+        )}
       </ButtonGroup>
     </Fieldset.Root>
   );

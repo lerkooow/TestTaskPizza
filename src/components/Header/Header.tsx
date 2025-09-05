@@ -24,7 +24,7 @@ export const Header = () => {
         <Dialog.Trigger asChild>
           <CartIcon totalCount={totalCount} onClick={() => setIsOpen(true)} />
         </Dialog.Trigger>
-        <CartModal cart={cart} steps={steps} onRemoveItem={removeCartItem} onUpdateCount={updateCartItemCount} />
+        <CartModal cart={cart} steps={steps} onRemoveItem={removeCartItem} onUpdateCount={updateCartItemCount} isOpen={isOpen} onClose={() => setIsOpen(false)} />
       </Dialog.Root>
     </HStack>
   );

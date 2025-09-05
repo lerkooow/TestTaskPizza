@@ -1,11 +1,11 @@
-import type { ForwardedRef } from "react";
+import type { ChangeEvent, ForwardedRef } from "react";
 
 import { Field, Input, Text } from "@chakra-ui/react";
 
 type TFormFieldProps = {
   label: string;
   value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   maxLength?: number;
   ref?: ForwardedRef<HTMLInputElement>;
