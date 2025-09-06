@@ -1,15 +1,17 @@
 import { useCheckoutStore } from "@/store/checkoutStore";
 import { Box, Button, ButtonGroup, Steps, Text } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
+import { useCartStore } from "@/store/cartStore";
 
 type TConfirmationStepProps = {
   totalAmount: number;
   onClose: () => void;
+  setStep: (step: number) => void;
 };
 
-export const ConfirmationStep = ({ totalAmount, onClose }: TConfirmationStepProps) => {
+export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmationStepProps) => {
   const { values } = useCheckoutStore();
-  console.log("🚀 ~ ConfirmationStep ~ values:", values);
+  const { setCart } = useCartStore();
   const { name, phone, address, comment } = values;
 
   return (
@@ -28,17 +30,19 @@ export const ConfirmationStep = ({ totalAmount, onClose }: TConfirmationStepProp
         <Steps.NextTrigger asChild>
           <Button
             p="4"
-            color="red"
             onClick={() => {
               toaster.create({
-                description: "File saved successfully",
-                type: "info",
+                description: "Заказ успешно оформлен!",
+                type: "success",
                 closable: true,
+                duration: 15000,
               });
+              setCart([]);
               onClose();
+              setTimeout(() => setStep(0), 0);
             }}
           >
-            Завершить
+            Подтвердить заказ
           </Button>
         </Steps.NextTrigger>
       </ButtonGroup>

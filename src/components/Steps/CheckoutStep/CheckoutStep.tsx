@@ -8,6 +8,8 @@ import { useCheckoutStore } from "@/store/checkoutStore";
 
 type TCheckoutStep = {
   totalAmount: number;
+  step: number;
+  setStep: (step: number) => void;
 };
 
 const checkoutSchema = z.object({
@@ -19,7 +21,7 @@ const checkoutSchema = z.object({
 
 type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
-export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
+export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
   const inputRef = useMask({ mask: "+7 (___) ___-__-__", replacement: { _: /\d/ } });
   const setValues = useCheckoutStore((state) => state.setValues);
   const {
@@ -33,6 +35,7 @@ export const CheckoutStep = ({ totalAmount }: TCheckoutStep) => {
     console.log("Форма валидна, данные:", data);
     setValues(data);
     reset();
+    setStep(step + 1);
   };
 
   return (
