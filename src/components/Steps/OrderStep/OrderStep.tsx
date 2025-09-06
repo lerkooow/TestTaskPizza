@@ -1,8 +1,9 @@
-import { Box, Button, ButtonGroup, Steps, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Steps, Text, VStack } from "@chakra-ui/react";
 
 import { CartItem } from "@/components/Cart/CartItem";
 
 import type { TCart } from "@/types";
+import { CartEmpty } from "@/components/Cart/CartEmpty";
 
 type TOrderStepProps = {
   cart: TCart[];
@@ -14,11 +15,7 @@ type TOrderStepProps = {
 
 export const OrderStep = ({ cart, totalAmount, stepDescription, onRemoveItem, onUpdateCount }: TOrderStepProps) => {
   if (cart.length === 0) {
-    return (
-      <Text fontSize="lg" fontWeight="bold">
-        Корзина пуста
-      </Text>
-    );
+    return <CartEmpty />;
   }
 
   return (
