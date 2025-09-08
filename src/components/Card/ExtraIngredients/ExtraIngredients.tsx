@@ -19,7 +19,7 @@ export const ExtraIngredients = ({ pizza, toggleIngredient }: TExtraIngredientsP
       </Text>
       <VStack align="start">
         <CheckboxGroup>
-          {extraIngredients.map((item) => (
+          {extraIngredients?.map((item) => (
             <Checkbox.Root key={item.id} onChange={() => toggleIngredient(item)}>
               <Checkbox.HiddenInput />
               <Checkbox.Control />

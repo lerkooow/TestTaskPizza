@@ -32,7 +32,7 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
 
         <VStack align="start" overflowY="auto" w="100%" gap="2">
           {cart.map((item) => (
-            <Box key={item.id} w="100%" p="3" borderWidth="1px" borderRadius="md" boxShadow="sm" bg="gray.50">
+            <Box key={item.id_cart} w="100%" p="3" borderWidth="1px" borderRadius="md" boxShadow="sm" bg="gray.50">
               <Text fontSize="clamp(16px, 2vw, 20px)" fontWeight="semibold">
                 {item.name} x {item.count}
               </Text>

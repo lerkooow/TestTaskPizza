@@ -9,13 +9,13 @@ type TCartItemInfoProps = {
   onRemove: (id_cart: string) => void;
 };
 
-export const CartItemInfo = ({ item, index, onRemove }: TCartItemInfoProps) => {
+export const CartItemInfo = ({ item, onRemove }: TCartItemInfoProps) => {
   return (
     <Box display="flex" borderBottom="1px solid #e2e8f0">
       <Box display="flex" alignItems="center" gap="2" flex="1">
         <Image src={item.image} alt={item.name} borderRadius="md" maxH="clamp(70px, 5vw, 100px)" maxW="clamp(70px, 5vw, 100px)" objectFit="cover" display={{ base: "none", md: "block" }} />
         <HStack gap="2" flexDirection="column" alignItems="flex-start">
-          <Text key={index} fontSize="clamp(18px, 2vw, 24px)" overflow="hidden" textOverflow="ellipsis" mb={item.ingredients.length > 0 ? "0" : "2"} fontWeight="semibold">
+          <Text fontSize="clamp(18px, 2vw, 24px)" overflow="hidden" textOverflow="ellipsis" mb={item.ingredients.length > 0 ? "0" : "2"} fontWeight="semibold">
             {item.name}
           </Text>
           {item.ingredients.length > 0 && (
