@@ -59,10 +59,10 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
               p="4"
               onClick={() => {
                 toaster.create({
-                  description: "Заказ успешно оформлен!",
+                  title: "Заказ оформлен",
                   type: "success",
                   closable: true,
-                  duration: 15000,
+                  duration: 5000,
                 });
                 setCart([]);
                 onClose();
