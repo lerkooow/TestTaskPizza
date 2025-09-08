@@ -1,6 +1,7 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
 
 import type { TCart } from "@/types";
+import { getIngredientsList } from "@/utils/ingredients";
 
 type TCartItemInfoProps = {
   item: TCart;
@@ -9,24 +10,22 @@ type TCartItemInfoProps = {
 };
 
 export const CartItemInfo = ({ item, index, onRemove }: TCartItemInfoProps) => {
-  const ingredientsList = item.ingredients.map((ingredient) => ingredient.name).join(", ");
-
   return (
-    <Box display="flex" alignItems="flex-start" justifyContent="space-between" gap="4" borderBottom="1px solid #e2e8f0">
-      <Box display="flex" alignItems="center" gap="4" w="100%">
-        <Image src={item.image} alt={item.name} borderRadius="md" maxH="100px" maxW="100px" objectFit="cover" />
-        <Box>
-          <Text key={index} fontSize="2xl" mb="2" overflow="hidden" textOverflow="ellipsis">
+    <Box display="flex" borderBottom="1px solid #e2e8f0">
+      <Box display="flex" alignItems="center" gap="2" flex="1">
+        <Image src={item.image} alt={item.name} borderRadius="md" maxH="clamp(70px, 5vw, 100px)" maxW="clamp(70px, 5vw, 100px)" objectFit="cover" display={{ base: "none", md: "block" }} />
+        <HStack gap="2" flexDirection="column" alignItems="flex-start">
+          <Text key={index} fontSize="clamp(18px, 2vw, 24px)" overflow="hidden" textOverflow="ellipsis" mb={item.ingredients.length > 0 ? "0" : "2"} fontWeight="semibold">
             {item.name}
           </Text>
-          <HStack>
-            <Text fontSize="sm" color="gray.500">
-              {ingredientsList}
+          {item.ingredients.length > 0 && (
+            <Text fontSize="clamp(12px, 2vw, 14px)" color="gray.500" _dark={{ color: "gray.400" }} overflow="hidden" mb="2">
+              {getIngredientsList(item.ingredients)}
             </Text>
-          </HStack>
-        </Box>
+          )}
+        </HStack>
       </Box>
-      <Image src="cross.svg" alt="Delete" borderRadius="md" maxH="24px" maxW="24px" cursor="pointer" onClick={() => onRemove(item.id_cart)} />
+      <Image src="cross.svg" alt="Delete" borderRadius="md" maxH="clamp(16px, 3vw, 24px)" maxW="clamp(16px, 3vw, 24px)" cursor="pointer" onClick={() => onRemove(item.id_cart)} />
     </Box>
   );
 };

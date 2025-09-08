@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Fieldset, HStack, Stack, Steps, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Fieldset, HStack, Steps, Text, VStack } from "@chakra-ui/react";
 import { useMask } from "@react-input/mask";
 import { FormField } from "@/ui/FormField";
 import { useForm, Controller } from "react-hook-form";
@@ -44,9 +44,9 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
   };
 
   return (
-    <Fieldset.Root as="form" w="100%" h="55vh">
+    <Fieldset.Root as="form" w="100%" h="54vh">
       <Box display="flex" flexDirection="column" h="100%" justifyContent="space-between">
-        <Stack w="100%">
+        <VStack w="100%" mb="7" gap="2" maxH="400px" overflowY="auto">
           <Controller name="name" control={control} render={({ field }) => <FormField label="Имя" placeholder="Ваше имя" {...field} error={errors.name?.message} />} />
 
           <Controller
@@ -74,22 +74,31 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
             control={control}
             render={({ field }) => <FormField label="Комментарий (опционально)" placeholder="Комментарий к заказу" {...field} value={field.value ?? ""} error={errors.comment?.message} />}
           />
-        </Stack>
+        </VStack>
+        <Box w="100%" p="3" borderRadius="xl" boxShadow="md" display={{ base: "block", md: "none" }}>
+          <Text fontSize="clamp(18px, 2vw, 26px)" fontWeight="extrabold">
+            Сумма заказа: {totalAmount} ₽
+          </Text>
+        </Box>
 
-        <ButtonGroup size="sm" variant="outline" w="100%" justifyContent="space-between">
-          <HStack gap="2">
+        <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="6">
+          <HStack gap="3">
             <Steps.PrevTrigger asChild>
-              <Button p="4">Назад</Button>
+              <Button p="4" borderRadius="lg" variant="outline">
+                Назад
+              </Button>
             </Steps.PrevTrigger>
             <Steps.NextTrigger asChild>
-              <Button type="submit" p="4" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+              <Button type="submit" p="4" borderRadius="lg" colorScheme="teal" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
                 Дальше
               </Button>
             </Steps.NextTrigger>
           </HStack>
-          <Text fontSize="2xl" fontWeight="bold" textAlign="right">
-            Сумма заказа: {totalAmount} ₽
-          </Text>
+          <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
+            <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
+              Сумма заказа: {totalAmount} ₽
+            </Text>
+          </Box>
         </ButtonGroup>
       </Box>
     </Fieldset.Root>

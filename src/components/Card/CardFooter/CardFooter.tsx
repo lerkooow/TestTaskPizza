@@ -13,7 +13,7 @@ export const CardFooter = ({ pizza }: TCardFooterProps) => {
         <Text fontSize="2xl" fontWeight="bold" color="gray.900" letterSpacing="tight">
           {pizza.price} ₽
         </Text>
-        <Button variant="solid" colorScheme="orange" size="lg" w="100%" borderRadius="xl" fontWeight="semibold" _hover={{ shadow: "lg" }} transition="all 0.2s ease-in-out">
+        <Button size="lg" w="100%" borderRadius="xl" fontWeight="semibold" _hover={{ shadow: "lg" }} transition="all 0.2s ease-in-out">
           Добавить в корзину
         </Button>
       </VStack>

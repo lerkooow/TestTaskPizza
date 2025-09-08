@@ -8,8 +8,6 @@ import { CartModal } from "../Cart/CartModal";
 
 import { useCartStore } from "@/store/cartStore";
 
-import { steps } from "@/mockData";
-
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -24,7 +22,7 @@ export const Header = () => {
         <Dialog.Trigger asChild>
           <CartIcon totalCount={totalCount} onClick={() => setIsOpen(true)} />
         </Dialog.Trigger>
-        <CartModal cart={cart} onRemoveItem={removeCartItem} onUpdateCount={updateCartItemCount} isOpen={isOpen} onClose={() => setIsOpen(false)} />
+        <CartModal cart={cart} onRemoveItem={removeCartItem} onUpdateCount={updateCartItemCount} onClose={() => setIsOpen(false)} />
       </Dialog.Root>
     </HStack>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { useCartStore } from "@/store/cartStore";
 
@@ -11,17 +11,14 @@ export const useCardItem = (pizza: TPizzaData) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState<TIngredients[]>([]);
 
-  const getExtraIngredients = (pizzaId: number) => {
-    const pizzaItem = pizzaData.find((p) => p.id === pizzaId);
-    if (!pizzaItem) return [];
-    return pizzaItem.ingredients.map((id) => ingredients.find((item) => item.id === id)!);
-  };
+  const extraIngredients = useMemo(() => {
+    const pizzaItem = pizzaData.find((p) => p.id === pizza.id);
+    return pizzaItem?.ingredients.map((id) => ingredients.find((item) => item.id === id)!);
+  }, [pizza.id]);
 
-  const extraIngredients = getExtraIngredients(pizza.id);
-
-  const toggleIngredient = (ingredient: TIngredients) => {
+  const toggleIngredient = useCallback((ingredient: TIngredients) => {
     setSelectedIngredients((prev) => (prev.some((i) => i.id === ingredient.id) ? prev.filter((i) => i.id !== ingredient.id) : [...prev, ingredient]));
-  };
+  }, []);
 
   const ingredientsEqual = (a: TIngredients[], b: TIngredients[]) => {
     if (a.length !== b.length) return false;
@@ -30,18 +27,22 @@ export const useCardItem = (pizza: TPizzaData) => {
     return aIds.every((id, index) => id === bIds[index]);
   };
 
-  const totalIngredientsPrice = selectedIngredients.reduce((sum, item) => sum + item.price, 0);
-  const totalPrice = pizza.price + totalIngredientsPrice;
+  const totalIngredientsPrice = useMemo(() => selectedIngredients.reduce((sum, item) => sum + item.price, 0), [selectedIngredients]);
 
-  const handleAddCart = () => {
+  const totalPrice = useMemo(() => pizza.price + totalIngredientsPrice, [pizza.price, totalIngredientsPrice]);
+
+  const handleAddCart = useCallback(() => {
     const existingIndex = cart.findIndex((item) => item.id === pizza.id && ingredientsEqual(item.ingredients, selectedIngredients));
 
     if (existingIndex !== -1) {
       const updated = [...cart];
-      updated[existingIndex].count += 1;
+      updated[existingIndex] = {
+        ...updated[existingIndex],
+        count: updated[existingIndex].count + 1,
+      };
       setCart(updated);
     } else {
-      const uniqueId = `${pizza.id}-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+      const uniqueId = `${pizza.id}-${crypto.randomUUID?.() ?? Date.now()}`;
       setCart([
         ...cart,
         {
@@ -55,9 +56,10 @@ export const useCardItem = (pizza: TPizzaData) => {
         },
       ]);
     }
+
     setSelectedIngredients([]);
     setIsOpen(false);
-  };
+  }, [cart, pizza, selectedIngredients, totalPrice, setCart, ingredientsEqual]);
 
   return {
     isOpen,

@@ -14,11 +14,11 @@ type TCartItemProps = {
 
 export const CartItem = ({ item, index, onRemove, onUpdateCount }: TCartItemProps) => {
   return (
-    <Box key={index} mb="6" border="1px solid #7b7b7b5c" p="4" pb="6" borderRadius="xl">
+    <Box key={index} border="1px solid #7b7b7b5c" p="4" pb="6" borderRadius="xl">
       <CartItemInfo item={item} index={index} onRemove={onRemove} />
       <Box display="flex" justifyContent="space-between" alignItems="center" mt="4">
         <CartItemControls count={item.count} onUpdateCount={(count) => onUpdateCount(item.id_cart, count)} />
-        <Text fontSize="2xl" fontWeight="bold" mt="4">
+        <Text fontSize="clamp(16px, 3vw, 24px)" fontWeight="bold">
           {item.count * item.price} ₽
         </Text>
       </Box>

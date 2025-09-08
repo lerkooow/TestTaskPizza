@@ -15,15 +15,11 @@ export const CartItemControls = ({ count, onUpdateCount }: TCartItemControlsProp
   return (
     <ButtonGroup size="sm" variant="outline">
       <HStack>
-        <Button p="4" onClick={() => handleUpdateCount(count - 1)}>
-          -
-        </Button>
-        <Text minW="20px" textAlign="center">
+        <Button onClick={() => handleUpdateCount(count - 1)}>-</Button>
+        <Text minW="20px" fontSize="clamp(12px, 2vw, 14px)" textAlign="center">
           {count}
         </Text>
-        <Button p="4" onClick={() => handleUpdateCount(count + 1)}>
-          +
-        </Button>
+        <Button onClick={() => handleUpdateCount(count + 1)}>+</Button>
       </HStack>
     </ButtonGroup>
   );

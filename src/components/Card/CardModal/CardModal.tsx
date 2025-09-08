@@ -1,16 +1,17 @@
-import { Button, Image, Text, VStack, Box, Dialog, Portal, CloseButton, Checkbox } from "@chakra-ui/react";
+import { Button, Image, VStack, Box, Dialog, Portal, CloseButton } from "@chakra-ui/react";
+
+import { ExtraIngredients } from "../ExtraIngredients";
 
 import type { TIngredients, TPizzaData } from "@/types";
 
 type TCardModalProps = {
   pizza: TPizzaData;
-  extraIngredients: TIngredients[];
   toggleIngredient: (ingredient: TIngredients) => void;
   handleAddCart: () => void;
   totalPrice: number;
 };
 
-export const CardModal = ({ pizza, extraIngredients, toggleIngredient, handleAddCart, totalPrice }: TCardModalProps) => {
+export const CardModal = ({ pizza, toggleIngredient, handleAddCart, totalPrice }: TCardModalProps) => {
   return (
     <Portal>
       <Dialog.Backdrop />
@@ -28,20 +29,7 @@ export const CardModal = ({ pizza, extraIngredients, toggleIngredient, handleAdd
             </Dialog.Header>
 
             <Dialog.Body>
-              <Text fontWeight="semibold" mb="5" fontSize="lg">
-                Дополнительные ингредиенты:
-              </Text>
-              <VStack align="start">
-                {extraIngredients.map((item) => (
-                  <Checkbox.Root key={item.id} onChange={() => toggleIngredient(item)}>
-                    <Checkbox.HiddenInput />
-                    <Checkbox.Control />
-                    <Checkbox.Label fontSize="md">
-                      {item.name} (+{item.price} ₽)
-                    </Checkbox.Label>
-                  </Checkbox.Root>
-                ))}
-              </VStack>
+              <ExtraIngredients pizza={pizza} toggleIngredient={toggleIngredient} />
             </Dialog.Body>
 
             <Dialog.Footer gap="3" w="100%">

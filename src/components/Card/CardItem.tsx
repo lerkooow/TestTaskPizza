@@ -12,7 +12,7 @@ type TCardItemProps = {
 };
 
 export const CardItem = ({ pizza }: TCardItemProps) => {
-  const { isOpen, setIsOpen, extraIngredients, toggleIngredient, handleAddCart, totalPrice } = useCardItem(pizza);
+  const { isOpen, setIsOpen, toggleIngredient, handleAddCart, totalPrice } = useCardItem(pizza);
 
   return (
     <Dialog.Root size="lg" closeOnInteractOutside={false} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
@@ -40,7 +40,7 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
         </Card.Root>
       </Dialog.Trigger>
 
-      <CardModal pizza={pizza} extraIngredients={extraIngredients} toggleIngredient={toggleIngredient} handleAddCart={handleAddCart} totalPrice={totalPrice} />
+      <CardModal pizza={pizza} toggleIngredient={toggleIngredient} handleAddCart={handleAddCart} totalPrice={totalPrice} />
     </Dialog.Root>
   );
 };

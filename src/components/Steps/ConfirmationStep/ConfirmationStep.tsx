@@ -2,6 +2,7 @@ import { useCheckoutStore } from "@/store/checkoutStore";
 import { Box, Button, ButtonGroup, HStack, Steps, Text, VStack } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
 import { useCartStore } from "@/store/cartStore";
+import { getIngredientsList } from "@/utils/ingredients";
 
 type TConfirmationStepProps = {
   totalAmount: number;
@@ -14,49 +15,52 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
   const { cart, setCart } = useCartStore();
   const { name, phone, address, comment } = values;
 
-  return (
-    <HStack h="55vh" flexDirection="column" justifyContent="space-between" alignItems="flex-start">
-      <Box w="100%" py="6">
-        <Text fontSize="xl" mb="3">
-          <b>Ваше имя:</b> {name}
-        </Text>
-        <Text fontSize="xl" mb="3">
-          <b>Телефон:</b> {phone}
-        </Text>
-        <Text fontSize="xl" mb="3">
-          <b>Адрес:</b> {address}
-        </Text>
-        {comment && (
-          <Text fontSize="xl" mb="4">
-            <b>Комментарий:</b> {comment}
-          </Text>
-        )}
+  const fields = [{ label: "Ваше имя:", value: name }, { label: "Телефон:", value: phone }, { label: "Адрес:", value: address }, ...(comment ? [{ label: "Комментарий:", value: comment }] : [])];
 
-        <Text fontSize="xl" fontWeight="bold" mb="2">
+  return (
+    <HStack h="54vh" flexDirection="column" justifyContent="space-between" alignItems="flex-start" gap="0">
+      <Box w="100%" mb="5">
+        {fields.map(({ label, value }, idx) => (
+          <Text key={idx} fontSize="clamp(16px, 2vw, 20px)" mb={idx === fields.length - 1 ? "4" : "3"}>
+            <b>{label}</b> {value}
+          </Text>
+        ))}
+
+        <Text fontSize="clamp(16px, 2vw, 20px)" fontWeight="bold" mb="2">
           Товары в заказе:
         </Text>
-        <VStack align="start" maxH="240px" overflowY="auto" w="100%" pr="2">
+        <VStack align="start" maxH={{ base: "135px", md: "180px", lg: "240px" }} overflowY="auto" w="100%" pr="2">
           {cart.map((item) => (
             <Box key={item.id} w="100%" p="3" borderWidth="1px" borderRadius="md" boxShadow="sm" bg="gray.50" _dark={{ bg: "gray.700" }}>
-              <Text fontSize="lg" fontWeight="semibold">
-                {item.name}
+              <Text fontSize="clamp(16px, 2vw, 20px)" fontWeight="semibold">
+                {item.name} x {item.count}
               </Text>
-              <Text>{item.ingredients.map((ing) => ing.name).join(", ")}</Text>
-              <Text>Количество: {item.count}</Text>
-              <Text>Цена: {item.price} ₽</Text>
+              <Text fontSize="clamp(14px, 2vw, 16px)">{getIngredientsList(item.ingredients)}</Text>
+              <Text fontSize="clamp(14px, 2vw, 16px)">Сумма: {item.price * item.count} ₽</Text>
             </Box>
           ))}
         </VStack>
       </Box>
 
-      <ButtonGroup size="sm" variant="outline" w="100%" justifyContent="space-between">
-        <HStack gap="2">
+      <Box w="100%" p="3" borderRadius="xl" boxShadow="md" display={{ base: "block", md: "none" }}>
+        <Text fontSize="clamp(18px, 2vw, 26px)" fontWeight="extrabold">
+          Сумма заказа: {totalAmount} ₽
+        </Text>
+      </Box>
+
+      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="6">
+        <HStack gap="3">
           <Steps.PrevTrigger asChild>
-            <Button p="4">Назад</Button>
+            <Button p="4" borderRadius="lg" variant="outline">
+              Назад
+            </Button>
           </Steps.PrevTrigger>
           <Steps.NextTrigger asChild>
             <Button
+              type="submit"
               p="4"
+              borderRadius="lg"
+              colorScheme="teal"
               onClick={() => {
                 toaster.create({
                   title: "Заказ оформлен",
@@ -73,9 +77,11 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
             </Button>
           </Steps.NextTrigger>
         </HStack>
-        <Text fontSize="2xl" fontWeight="bold" textAlign="right">
-          Сумма заказа: {totalAmount} ₽
-        </Text>
+        <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
+          <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
+            Сумма заказа: {totalAmount} ₽
+          </Text>
+        </Box>
       </ButtonGroup>
     </HStack>
   );

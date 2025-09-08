@@ -30,16 +30,16 @@ export const CartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TCartM
     <Portal>
       <Dialog.Backdrop />
       <Dialog.Positioner alignItems="center" justifyContent="center" display="flex">
-        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" overflowY="auto" flexDirection={{ base: "column", md: "row" }} gap="6" h="100%">
+        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" flexDirection={{ base: "column", md: "row" }} gap="6" h="100%">
           <Box display="flex" flexDirection="column" flex="1">
             <Dialog.Body mt="4">
               <Stack gap="10" width="full">
-                <Steps.Root step={step} onStepChange={(details) => setStep(details.step)} count={steps.length} variant="subtle" h="100%">
+                <Steps.Root step={step} onStepChange={(details) => setStep(details.step)} count={steps.length} variant="subtle" h="full">
                   <Steps.List>
                     {steps.map((s, index) => (
                       <Steps.Item key={index} index={index} title={s.title}>
                         <Steps.Indicator />
-                        <Steps.Title>{s.title}</Steps.Title>
+                        <Steps.Title display={{ base: "none", md: "block" }}>{s.title}</Steps.Title>
                         <Steps.Separator />
                       </Steps.Item>
                     ))}
