@@ -18,8 +18,8 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
   const fields = [{ label: "Ваше имя:", value: name }, { label: "Телефон:", value: phone }, { label: "Адрес:", value: address }, ...(comment ? [{ label: "Комментарий:", value: comment }] : [])];
 
   return (
-    <HStack h="54vh" flexDirection="column" justifyContent="space-between" alignItems="flex-start" gap="0">
-      <Box w="100%" mb="5">
+    <Box display="flex" flexDirection="column" flex="1" minH={0} gap="4">
+      <VStack w="100%" align="start" gap="2" overflowY="auto" flex="1" minH={0} pr="2">
         {fields.map(({ label, value }, idx) => (
           <Text key={idx} fontSize="clamp(16px, 2vw, 20px)" mb={idx === fields.length - 1 ? "4" : "3"}>
             <b>{label}</b> {value}
@@ -29,9 +29,10 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
         <Text fontSize="clamp(16px, 2vw, 20px)" fontWeight="bold" mb="2">
           Товары в заказе:
         </Text>
-        <VStack align="start" maxH={{ base: "135px", md: "180px", lg: "240px" }} overflowY="auto" w="100%" pr="2">
+
+        <VStack align="start" overflowY="auto" w="100%" gap="2">
           {cart.map((item) => (
-            <Box key={item.id} w="100%" p="3" borderWidth="1px" borderRadius="md" boxShadow="sm" bg="gray.50" _dark={{ bg: "gray.700" }}>
+            <Box key={item.id} w="100%" p="3" borderWidth="1px" borderRadius="md" boxShadow="sm" bg="gray.50">
               <Text fontSize="clamp(16px, 2vw, 20px)" fontWeight="semibold">
                 {item.name} x {item.count}
               </Text>
@@ -40,15 +41,15 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
             </Box>
           ))}
         </VStack>
-      </Box>
+      </VStack>
 
-      <Box w="100%" p="3" borderRadius="xl" boxShadow="md" display={{ base: "block", md: "none" }}>
+      <Box w="100%" p="3" display={{ base: "block", md: "none" }}>
         <Text fontSize="clamp(18px, 2vw, 26px)" fontWeight="extrabold">
           Сумма заказа: {totalAmount} ₽
         </Text>
       </Box>
 
-      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="6">
+      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
         <HStack gap="3">
           <Steps.PrevTrigger asChild>
             <Button p="4" borderRadius="lg" variant="outline">
@@ -77,12 +78,13 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
             </Button>
           </Steps.NextTrigger>
         </HStack>
+
         <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
           <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
             Сумма заказа: {totalAmount} ₽
           </Text>
         </Box>
       </ButtonGroup>
-    </HStack>
+    </Box>
   );
 };

@@ -19,7 +19,7 @@ export const CartItemInfo = ({ item, index, onRemove }: TCartItemInfoProps) => {
             {item.name}
           </Text>
           {item.ingredients.length > 0 && (
-            <Text fontSize="clamp(12px, 2vw, 14px)" color="gray.500" _dark={{ color: "gray.400" }} overflow="hidden" mb="2">
+            <Text fontSize="clamp(12px, 2vw, 14px)" color="gray.500" overflow="hidden" mb="2">
               {getIngredientsList(item.ingredients)}
             </Text>
           )}

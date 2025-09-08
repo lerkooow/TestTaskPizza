@@ -15,15 +15,15 @@ type TOrderStepProps = {
 export const OrderStep = ({ cart, totalAmount, onRemoveItem, onUpdateCount }: TOrderStepProps) => {
   if (cart.length === 0) {
     return (
-      <Box h="100%">
+      <Box flex="1" display="flex">
         <CartEmpty />
       </Box>
     );
   }
 
   return (
-    <Box h="54vh" display="flex" flexDirection="column" justifyContent="space-between">
-      <Box maxH="400px" overflowY="auto" mb="5" w="100%" p="4" borderRadius="xl" bg="white" _dark={{ bg: "gray.800" }} boxShadow="lg">
+    <Box flex="1" display="flex" flexDirection="column" gap="6" minH={0}>
+      <Box flex="1" minH={0} overflowY="auto" w="100%" p="2">
         <VStack align="stretch" gap="4">
           {cart.map((item, index) => (
             <CartItem key={item.id_cart} item={item} index={index} onRemove={onRemoveItem} onUpdateCount={onUpdateCount} />
@@ -31,13 +31,13 @@ export const OrderStep = ({ cart, totalAmount, onRemoveItem, onUpdateCount }: TO
         </VStack>
       </Box>
 
-      <Box w="100%" p="3" borderRadius="xl" boxShadow="md" display={{ base: "block", md: "none" }}>
+      <Box w="100%" p="3" display={{ base: "block", md: "none" }}>
         <Text fontSize="clamp(18px, 2vw, 26px)" fontWeight="extrabold">
           Сумма заказа: {totalAmount} ₽
         </Text>
       </Box>
 
-      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="6">
+      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
         <HStack gap="3">
           <Steps.PrevTrigger asChild>
             <Button p="4" borderRadius="lg" variant="outline">

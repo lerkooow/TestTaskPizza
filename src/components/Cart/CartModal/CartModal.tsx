@@ -30,11 +30,11 @@ export const CartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TCartM
     <Portal>
       <Dialog.Backdrop />
       <Dialog.Positioner alignItems="center" justifyContent="center" display="flex">
-        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" flexDirection={{ base: "column", md: "row" }} gap="6" h="100%">
-          <Box display="flex" flexDirection="column" flex="1">
-            <Dialog.Body mt="4">
-              <Stack gap="10" width="full">
-                <Steps.Root step={step} onStepChange={(details) => setStep(details.step)} count={steps.length} variant="subtle" h="full">
+        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" h="100%" display="flex" flexDirection="column" mx="4">
+          <Box flex="1" display="flex" flexDirection="column" minH={0}>
+            <Dialog.Body mt="4" flex="1" display="flex" flexDirection="column" minH={0}>
+              <Stack gap="10" width="full" flex="1" display="flex" flexDirection="column" minH={0}>
+                <Steps.Root step={step} onStepChange={(details) => setStep(details.step)} count={steps.length} variant="subtle" h="100%" display="flex" flexDirection="column">
                   <Steps.List>
                     {steps.map((s, index) => (
                       <Steps.Item key={index} index={index} title={s.title}>
@@ -44,8 +44,9 @@ export const CartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TCartM
                       </Steps.Item>
                     ))}
                   </Steps.List>
+
                   {steps.map((s, index) => (
-                    <Steps.Content key={index} index={index} _focusVisible={{ boxShadow: "none", outline: "none" }}>
+                    <Steps.Content key={index} index={index} h="100%" flex="1" display="flex" flexDirection="column" minH={0} _focusVisible={{ boxShadow: "none", outline: "none" }}>
                       {s.description}
                     </Steps.Content>
                   ))}
@@ -53,6 +54,7 @@ export const CartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TCartM
               </Stack>
             </Dialog.Body>
           </Box>
+
           <Dialog.CloseTrigger asChild>
             <CloseButton position="absolute" top="2" right="2" />
           </Dialog.CloseTrigger>

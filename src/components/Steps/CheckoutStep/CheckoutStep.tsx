@@ -1,25 +1,18 @@
 import { Box, Button, ButtonGroup, Fieldset, HStack, Steps, Text, VStack } from "@chakra-ui/react";
-import { useMask } from "@react-input/mask";
-import { FormField } from "@/ui/FormField";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { useForm, Controller } from "react-hook-form";
+import { useMask } from "@react-input/mask";
+
+import { FormField } from "@/ui/FormField";
+
 import { useCheckoutStore } from "@/store/checkoutStore";
+import { checkoutSchema, type CheckoutFormValues } from "@/schemas/checkoutSchema";
 
 type TCheckoutStep = {
   totalAmount: number;
   step: number;
   setStep: (step: number) => void;
 };
-
-const checkoutSchema = z.object({
-  name: z.string().min(2, "Имя должно содержать минимум 2 символа"),
-  phone: z.string().regex(/^\+7 \(\d{3}\) \d{3}-\d{2}-\d{2}$/, "Введите корректный номер телефона"),
-  address: z.string().min(5, "Адрес должен содержать минимум 5 символов"),
-  comment: z.string().optional(),
-});
-
-type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
   const inputRef = useMask({ mask: "+7 (___) ___-__-__", replacement: { _: /\d/ } });
@@ -44,9 +37,9 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
   };
 
   return (
-    <Fieldset.Root as="form" w="100%" h="54vh">
-      <Box display="flex" flexDirection="column" h="100%" justifyContent="space-between">
-        <VStack w="100%" mb="7" gap="2" maxH="400px" overflowY="auto">
+    <Fieldset.Root as="form" w="100%" flex="1" display="flex" flexDirection="column" minH={0}>
+      <Box display="flex" flexDirection="column" h="100%" gap="6" flex="1" minH={0}>
+        <VStack w="100%" gap="2" overflowY="auto" flex="1" minH={0}>
           <Controller name="name" control={control} render={({ field }) => <FormField label="Имя" placeholder="Ваше имя" {...field} error={errors.name?.message} />} />
 
           <Controller
@@ -75,13 +68,14 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
             render={({ field }) => <FormField label="Комментарий (опционально)" placeholder="Комментарий к заказу" {...field} value={field.value ?? ""} error={errors.comment?.message} />}
           />
         </VStack>
-        <Box w="100%" p="3" borderRadius="xl" boxShadow="md" display={{ base: "block", md: "none" }}>
+
+        <Box w="100%" p="3" display={{ base: "block", md: "none" }}>
           <Text fontSize="clamp(18px, 2vw, 26px)" fontWeight="extrabold">
             Сумма заказа: {totalAmount} ₽
           </Text>
         </Box>
 
-        <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="6">
+        <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
           <HStack gap="3">
             <Steps.PrevTrigger asChild>
               <Button p="4" borderRadius="lg" variant="outline">
@@ -94,6 +88,7 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
               </Button>
             </Steps.NextTrigger>
           </HStack>
+
           <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
             <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
               Сумма заказа: {totalAmount} ₽
