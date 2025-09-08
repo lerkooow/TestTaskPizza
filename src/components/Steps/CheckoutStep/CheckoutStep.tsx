@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Fieldset, Stack, Steps, Text } from "@chakra-ui/react";
+import { Box, Button, ButtonGroup, Fieldset, HStack, Stack, Steps, Text } from "@chakra-ui/react";
 import { useMask } from "@react-input/mask";
 import { FormField } from "@/ui/FormField";
 import { useForm, Controller } from "react-hook-form";
@@ -23,70 +23,75 @@ type CheckoutFormValues = z.infer<typeof checkoutSchema>;
 
 export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
   const inputRef = useMask({ mask: "+7 (___) ___-__-__", replacement: { _: /\d/ } });
-  const setValues = useCheckoutStore((state) => state.setValues);
+
+  const { values, setValues } = useCheckoutStore();
+
   const {
     handleSubmit,
     control,
     formState: { errors, isValid },
     reset,
-  } = useForm<CheckoutFormValues>({ resolver: zodResolver(checkoutSchema), mode: "onChange", defaultValues: { name: "", phone: "", address: "", comment: "" } });
+  } = useForm<CheckoutFormValues>({
+    resolver: zodResolver(checkoutSchema),
+    mode: "onChange",
+    defaultValues: values,
+  });
 
   const onSubmit = (data: CheckoutFormValues) => {
-    console.log("Форма валидна, данные:", data);
     setValues(data);
-    reset();
+    reset(data);
     setStep(step + 1);
   };
 
   return (
-    <Fieldset.Root as="form" size="lg" maxW="md">
-      <Stack>
-        <Fieldset.Legend>Оформление заказа</Fieldset.Legend>
+    <Fieldset.Root as="form" w="100%" h="55vh">
+      <Box display="flex" flexDirection="column" h="100%" justifyContent="space-between">
+        <Stack w="100%">
+          <Controller name="name" control={control} render={({ field }) => <FormField label="Имя" placeholder="Ваше имя" {...field} error={errors.name?.message} />} />
 
-        <Controller name="name" control={control} render={({ field }) => <FormField label="Имя" placeholder="Ваше имя" {...field} error={errors.name?.message} />} />
+          <Controller
+            name="phone"
+            control={control}
+            render={({ field }) => (
+              <FormField
+                label="Телефон"
+                placeholder="+7 (XXX) XXX-XX-XX"
+                maxLength={18}
+                {...field}
+                ref={(el) => {
+                  field.ref(el);
+                  if (el) inputRef.current = el;
+                }}
+                error={errors.phone?.message}
+              />
+            )}
+          />
 
-        <Controller
-          name="phone"
-          control={control}
-          render={({ field }) => (
-            <FormField
-              label="Телефон"
-              placeholder="+7 (XXX) XXX-XX-XX"
-              maxLength={18}
-              {...field}
-              ref={(el) => {
-                field.ref(el);
-                if (el) inputRef.current = el;
-              }}
-              error={errors.phone?.message}
-            />
-          )}
-        />
+          <Controller name="address" control={control} render={({ field }) => <FormField label="Адрес доставки" placeholder="Улица, дом, квартира" {...field} error={errors.address?.message} />} />
 
-        <Controller name="address" control={control} render={({ field }) => <FormField label="Адрес доставки" placeholder="Улица, дом, квартира" {...field} error={errors.address?.message} />} />
+          <Controller
+            name="comment"
+            control={control}
+            render={({ field }) => <FormField label="Комментарий (опционально)" placeholder="Комментарий к заказу" {...field} value={field.value ?? ""} error={errors.comment?.message} />}
+          />
+        </Stack>
 
-        <Controller
-          name="comment"
-          control={control}
-          render={({ field }) => <FormField label="Комментарий (опционально)" placeholder="Комментарий к заказу" {...field} value={field.value ?? ""} error={errors.comment?.message} />}
-        />
-      </Stack>
-
-      <Text fontSize="2xl" fontWeight="bold" mt="4">
-        Сумма заказа: {totalAmount} ₽
-      </Text>
-
-      <ButtonGroup size="sm" variant="outline" mt="4">
-        <Steps.PrevTrigger asChild>
-          <Button p="4">Назад</Button>
-        </Steps.PrevTrigger>
-
-        <Steps.NextTrigger asChild>
-          <Button type="submit" p="4" color="green" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-            Дальше
-          </Button>
-        </Steps.NextTrigger>
-      </ButtonGroup>
+        <ButtonGroup size="sm" variant="outline" w="100%" justifyContent="space-between">
+          <HStack gap="2">
+            <Steps.PrevTrigger asChild>
+              <Button p="4">Назад</Button>
+            </Steps.PrevTrigger>
+            <Steps.NextTrigger asChild>
+              <Button type="submit" p="4" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
+                Дальше
+              </Button>
+            </Steps.NextTrigger>
+          </HStack>
+          <Text fontSize="2xl" fontWeight="bold" textAlign="right">
+            Сумма заказа: {totalAmount} ₽
+          </Text>
+        </ButtonGroup>
+      </Box>
     </Fieldset.Root>
   );
 };

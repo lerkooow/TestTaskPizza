@@ -1,4 +1,4 @@
-import { Button, HStack, Text } from "@chakra-ui/react";
+import { Button, ButtonGroup, HStack, Text } from "@chakra-ui/react";
 
 type TCartItemControlsProps = {
   count: number;
@@ -13,16 +13,18 @@ export const CartItemControls = ({ count, onUpdateCount }: TCartItemControlsProp
   };
 
   return (
-    <HStack>
-      <Button p="4" onClick={() => handleUpdateCount(count - 1)}>
-        -
-      </Button>
-      <Text minW="20px" textAlign="center">
-        {count}
-      </Text>
-      <Button p="4" onClick={() => handleUpdateCount(count + 1)}>
-        +
-      </Button>
-    </HStack>
+    <ButtonGroup size="sm" variant="outline">
+      <HStack>
+        <Button p="4" onClick={() => handleUpdateCount(count - 1)}>
+          -
+        </Button>
+        <Text minW="20px" textAlign="center">
+          {count}
+        </Text>
+        <Button p="4" onClick={() => handleUpdateCount(count + 1)}>
+          +
+        </Button>
+      </HStack>
+    </ButtonGroup>
   );
 };

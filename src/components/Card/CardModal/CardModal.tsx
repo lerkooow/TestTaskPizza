@@ -17,7 +17,7 @@ export const CardModal = ({ pizza, extraIngredients, toggleIngredient, handleAdd
       <Dialog.Positioner alignItems="center" justifyContent="center" display="flex">
         <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} flexDirection={{ base: "column", md: "row" }} gap="4" w="100%">
           <Box flexShrink={0}>
-            <Image src={pizza.image} alt={pizza.name} borderRadius="md" h={{ base: "250px", md: "400px" }} w="100%" objectFit="cover" />
+            <Image src={pizza.image} alt={pizza.name} borderRadius="md" h={{ base: "250px", md: "440px" }} w="100%" objectFit="cover" />
           </Box>
 
           <VStack align="start" gap="6" w="100%">

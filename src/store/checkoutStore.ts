@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 type CheckoutValues = {
   name: string;
@@ -12,9 +13,15 @@ type CheckoutStore = {
   setValues: (values: CheckoutValues) => void;
   reset: () => void;
 };
-
-export const useCheckoutStore = create<CheckoutStore>((set) => ({
-  values: { name: "", phone: "", address: "", comment: "" },
-  setValues: (values) => set({ values }),
-  reset: () => set({ values: { name: "", phone: "", address: "", comment: "" } }),
-}));
+export const useCheckoutStore = create(
+  persist<CheckoutStore>(
+    (set) => ({
+      values: { name: "", phone: "", address: "", comment: "" },
+      setValues: (values) => set({ values }),
+      reset: () => set({ values: { name: "", phone: "", address: "", comment: "" } }),
+    }),
+    {
+      name: "userInfo-storage",
+    }
+  )
+);

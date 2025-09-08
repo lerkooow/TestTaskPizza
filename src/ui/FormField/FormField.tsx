@@ -14,9 +14,9 @@ type TFormFieldProps = {
 
 export const FormField = ({ label, value, onChange, placeholder, maxLength, ref, error }: TFormFieldProps) => {
   return (
-    <Field.Root>
+    <Field.Root w="100%">
       <Field.Label>{label}</Field.Label>
-      <Input value={value} onChange={onChange} placeholder={placeholder} maxLength={maxLength} ref={ref} p="4" />
+      <Input value={value} onChange={onChange} placeholder={placeholder} maxLength={maxLength} ref={ref} p="4" w="100%" />
       <Text color="#8f0606ff">{error}</Text>
     </Field.Root>
   );
