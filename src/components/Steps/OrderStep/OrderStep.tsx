@@ -14,11 +14,7 @@ type TOrderStepProps = {
 
 export const OrderStep = ({ cart, totalAmount, onRemoveItem, onUpdateCount }: TOrderStepProps) => {
   if (cart.length === 0) {
-    return (
-      <Box flex="1" display="flex">
-        <CartEmpty />
-      </Box>
-    );
+    return <CartEmpty />;
   }
 
   return (
