@@ -3,9 +3,8 @@ import { Card, Image, Dialog } from "@chakra-ui/react";
 import { CardModal } from "./CardModal";
 import { CardFooter } from "./CardFooter";
 
-import { useCardItem } from "../Cart/hooks/useCardModal";
-
 import type { TPizzaData } from "@/types";
+import { useCardItem } from "./hooks/useCardItem";
 
 type TCardItemProps = {
   pizza: TPizzaData;
