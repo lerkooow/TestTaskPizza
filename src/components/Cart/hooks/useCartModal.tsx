@@ -6,7 +6,14 @@ import { ConfirmationStep } from "@/components/Steps/ConfirmationStep";
 
 import type { TCart } from "@/types";
 
-export const useCartModal = (cart: TCart[], onRemoveItem: (id_cart: string) => void, onUpdateCount: (id_cart: string, count: number) => void, onClose: () => void) => {
+type TUseCartModalProps = {
+  cart: TCart[];
+  onRemoveItem: (id_cart: string) => void;
+  onUpdateCount: (id_cart: string, count: number) => void;
+  onClose: () => void;
+};
+
+export const useCartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TUseCartModalProps) => {
   const [step, setStep] = useState(0);
 
   const totalAmount = useMemo(() => cart.reduce((total, item) => total + item.count * item.price, 0), [cart]);

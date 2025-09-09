@@ -1,6 +1,6 @@
 import { Box, CloseButton, Dialog, Portal, Stack, Steps } from "@chakra-ui/react";
 
-import { useCartModal } from "../hooks/useCardModal";
+import { useCartModal } from "../hooks/useCartModal";
 
 import type { TCart } from "@/types";
 
@@ -12,13 +12,13 @@ type TCartModalProps = {
 };
 
 export const CartModal = ({ cart, onRemoveItem, onUpdateCount, onClose }: TCartModalProps) => {
-  const { steps, step, setStep } = useCartModal(cart, onRemoveItem, onUpdateCount, onClose);
+  const { steps, step, setStep } = useCartModal({ cart, onRemoveItem, onUpdateCount, onClose });
 
   return (
     <Portal>
       <Dialog.Backdrop />
       <Dialog.Positioner alignItems="center" justifyContent="center" display="flex">
-        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" h="100%" display="flex" flexDirection="column" mx="4">
+        <Dialog.Content p="6" borderRadius="xl" maxW={{ base: "100%", md: "800px" }} w="100%" maxH="70vh" h="100%" display="flex" flexDirection="column" mx="2">
           <Box flex="1" display="flex" flexDirection="column" minH={0}>
             <Dialog.Body mt="4" flex="1" display="flex" flexDirection="column" minH={0}>
               <Stack gap="10" width="full" flex="1" display="flex" flexDirection="column" minH={0}>

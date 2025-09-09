@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { Dialog, HStack } from "@chakra-ui/react";
 
 import { HeaderLogo } from "./HeaderLogo";
-import { CartIcon } from "../Cart/CartIcon";
+import { CartIcon } from "./CartIcon";
 import { CartModal } from "../Cart/CartModal";
 
 import { useCartStore } from "@/store/cartStore";

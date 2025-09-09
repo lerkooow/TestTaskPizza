@@ -1,22 +1,23 @@
-import { Card, Image, Dialog } from "@chakra-ui/react";
+import { Card as CardItem, Image, Dialog } from "@chakra-ui/react";
 
 import { CardModal } from "./CardModal";
 import { CardFooter } from "./CardFooter";
 
+import { useCard } from "./hooks/useCard";
+
 import type { TPizzaData } from "@/types";
-import { useCardItem } from "./hooks/useCardItem";
 
 type TCardItemProps = {
   pizza: TPizzaData;
 };
 
-export const CardItem = ({ pizza }: TCardItemProps) => {
-  const { isOpen, setIsOpen, toggleIngredient, handleAddCart, totalPrice } = useCardItem(pizza);
+export const Card = ({ pizza }: TCardItemProps) => {
+  const { isOpen, setIsOpen, toggleIngredient, handleAddCart, totalPrice } = useCard(pizza);
 
   return (
     <Dialog.Root size="lg" closeOnInteractOutside={false} open={isOpen} onOpenChange={(details) => setIsOpen(details.open)}>
       <Dialog.Trigger asChild>
-        <Card.Root maxW="500px" variant="elevated" cursor="pointer" borderRadius="xl">
+        <CardItem.Root maxW="500px" variant="elevated" cursor="pointer" borderRadius="xl">
           <Image
             src={pizza.image}
             alt={pizza.name}
@@ -29,14 +30,14 @@ export const CardItem = ({ pizza }: TCardItemProps) => {
             }}
           />
 
-          <Card.Body p="20px" gap="3">
-            <Card.Title fontSize="lg" fontWeight="bold" color="gray.800" lineHeight="1.3">
+          <CardItem.Body p="20px" gap="3">
+            <CardItem.Title fontSize="lg" fontWeight="bold" color="gray.800" lineHeight="1.3">
               {pizza.name}
-            </Card.Title>
-          </Card.Body>
+            </CardItem.Title>
+          </CardItem.Body>
 
           <CardFooter pizza={pizza} />
-        </Card.Root>
+        </CardItem.Root>
       </Dialog.Trigger>
 
       <CardModal pizza={pizza} toggleIngredient={toggleIngredient} handleAddCart={handleAddCart} totalPrice={totalPrice} />

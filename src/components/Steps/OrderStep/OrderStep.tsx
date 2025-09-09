@@ -1,7 +1,9 @@
-import { Box, Button, ButtonGroup, HStack, Steps, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
 
 import { CartItem } from "@/components/Cart/CartItem";
 import { CartEmpty } from "@/components/Cart/CartEmpty";
+
+import { StepActions } from "../StepActions";
 
 import type { TCart } from "@/types";
 
@@ -33,26 +35,7 @@ export const OrderStep = ({ cart, totalAmount, onRemoveItem, onUpdateCount }: TO
         </Text>
       </Box>
 
-      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
-        <HStack gap="3">
-          <Steps.PrevTrigger asChild>
-            <Button p="4" borderRadius="lg" variant="outline">
-              Назад
-            </Button>
-          </Steps.PrevTrigger>
-          <Steps.NextTrigger asChild>
-            <Button p="4" borderRadius="lg" colorScheme="teal">
-              Дальше
-            </Button>
-          </Steps.NextTrigger>
-        </HStack>
-
-        <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
-          <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
-            Сумма заказа: {totalAmount} ₽
-          </Text>
-        </Box>
-      </ButtonGroup>
+      <StepActions totalAmount={totalAmount} />
     </Box>
   );
 };

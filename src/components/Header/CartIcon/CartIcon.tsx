@@ -11,7 +11,7 @@ export const CartIcon = ({ totalCount, onClick }: TCartIconProps) => {
       <Image src="shopping-cart.svg" alt="Shopping cart" style={{ width: "32px", height: "32px" }} />
       {totalCount !== 0 && (
         <Float offsetX="7" offsetY="3">
-          <Circle size="18px" bg="red" color="white" fontSize="14px" position="absolute">
+          <Circle size="18px" bg="red" color="white" fontSize="12px" position="absolute">
             {totalCount}
           </Circle>
         </Float>

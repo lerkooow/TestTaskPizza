@@ -1,6 +1,6 @@
 import { Box, Checkbox, CheckboxGroup, Text, VStack } from "@chakra-ui/react";
 
-import { useCardItem } from "../hooks/useCardItem";
+import { useCard } from "../hooks/useCard";
 
 import type { TIngredients, TPizzaData } from "@/types";
 
@@ -10,7 +10,7 @@ type TExtraIngredientsProps = {
 };
 
 export const ExtraIngredients = ({ pizza, toggleIngredient }: TExtraIngredientsProps) => {
-  const { extraIngredients } = useCardItem(pizza);
+  const { extraIngredients } = useCard(pizza);
 
   return (
     <Box>
@@ -18,7 +18,7 @@ export const ExtraIngredients = ({ pizza, toggleIngredient }: TExtraIngredientsP
         Дополнительные ингредиенты:
       </Text>
       <VStack align="start">
-        <CheckboxGroup>
+        <CheckboxGroup gap="3">
           {extraIngredients?.map((item) => (
             <Checkbox.Root key={item.id} onChange={() => toggleIngredient(item)}>
               <Checkbox.HiddenInput />

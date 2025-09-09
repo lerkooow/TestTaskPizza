@@ -1,7 +1,8 @@
 import { Box, HStack, Image, Text } from "@chakra-ui/react";
 
-import type { TCart } from "@/types";
 import { getIngredientsList } from "@/utils/ingredients";
+
+import type { TCart } from "@/types";
 
 type TCartItemInfoProps = {
   item: TCart;

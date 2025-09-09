@@ -1,11 +1,13 @@
-import { Box, Button, ButtonGroup, Fieldset, HStack, Steps, Text, VStack } from "@chakra-ui/react";
+import { Box, Fieldset, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { useMask } from "@react-input/mask";
 
+import { StepActions } from "../StepActions";
 import { FormField } from "@/ui/FormField";
 
 import { useCheckoutStore } from "@/store/checkoutStore";
+
 import { checkoutSchema, type CheckoutFormValues } from "@/schemas/checkoutSchema";
 
 type TCheckoutStep = {
@@ -75,26 +77,7 @@ export const CheckoutStep = ({ totalAmount, step, setStep }: TCheckoutStep) => {
           </Text>
         </Box>
 
-        <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
-          <HStack gap="3">
-            <Steps.PrevTrigger asChild>
-              <Button p="4" borderRadius="lg" variant="outline">
-                Назад
-              </Button>
-            </Steps.PrevTrigger>
-            <Steps.NextTrigger asChild>
-              <Button type="submit" p="4" borderRadius="lg" colorScheme="teal" disabled={!isValid} onClick={handleSubmit(onSubmit)}>
-                Дальше
-              </Button>
-            </Steps.NextTrigger>
-          </HStack>
-
-          <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
-            <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
-              Сумма заказа: {totalAmount} ₽
-            </Text>
-          </Box>
-        </ButtonGroup>
+        <StepActions totalAmount={totalAmount} type="submit" disabled={!isValid} onClick={handleSubmit(onSubmit)} />
       </Box>
     </Fieldset.Root>
   );

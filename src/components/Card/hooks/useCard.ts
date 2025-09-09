@@ -6,7 +6,7 @@ import { pizzaData, ingredients } from "@/mockData";
 
 import type { TIngredients, TPizzaData } from "@/types";
 
-export const useCardItem = (pizza: TPizzaData) => {
+export const useCard = (pizza: TPizzaData) => {
   const { cart, setCart } = useCartStore();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIngredients, setSelectedIngredients] = useState<TIngredients[]>([]);

@@ -1,7 +1,12 @@
-import { useCheckoutStore } from "@/store/checkoutStore";
-import { Box, Button, ButtonGroup, HStack, Steps, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack } from "@chakra-ui/react";
+
+import { StepActions } from "../StepActions";
+
 import { toaster } from "@/components/ui/toaster";
+
+import { useCheckoutStore } from "@/store/checkoutStore";
 import { useCartStore } from "@/store/cartStore";
+
 import { getIngredientsList } from "@/utils/ingredients";
 
 type TConfirmationStepProps = {
@@ -49,42 +54,16 @@ export const ConfirmationStep = ({ totalAmount, onClose, setStep }: TConfirmatio
         </Text>
       </Box>
 
-      <ButtonGroup size="md" variant="solid" w="100%" justifyContent="space-between" mt="auto">
-        <HStack gap="3">
-          <Steps.PrevTrigger asChild>
-            <Button p="4" borderRadius="lg" variant="outline">
-              Назад
-            </Button>
-          </Steps.PrevTrigger>
-          <Steps.NextTrigger asChild>
-            <Button
-              type="submit"
-              p="4"
-              borderRadius="lg"
-              colorScheme="teal"
-              onClick={() => {
-                toaster.create({
-                  title: "Заказ оформлен",
-                  type: "success",
-                  closable: true,
-                  duration: 5000,
-                });
-                setCart([]);
-                onClose();
-                setTimeout(() => setStep(0), 0);
-              }}
-            >
-              Подтвердить заказ
-            </Button>
-          </Steps.NextTrigger>
-        </HStack>
-
-        <Box w="100%" textAlign="right" display={{ base: "none", md: "block" }}>
-          <Text fontSize="clamp(18px, 2vw, 24px)" fontWeight="extrabold">
-            Сумма заказа: {totalAmount} ₽
-          </Text>
-        </Box>
-      </ButtonGroup>
+      <StepActions
+        totalAmount={totalAmount}
+        nextLabel="Подтвердить заказ"
+        onClick={() => {
+          toaster.create({ title: "Заказ оформлен", type: "success", closable: true });
+          setCart([]);
+          onClose();
+          setTimeout(() => setStep(0), 0);
+        }}
+      />
     </Box>
   );
 };
